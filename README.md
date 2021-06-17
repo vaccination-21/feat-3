@@ -3,5 +3,5 @@
 
 TBL
 
-![](./img/TBL.PNG)
+![](./img/TBL.png)
 
