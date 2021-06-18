@@ -1,0 +1,36 @@
+CREATE TABLE userTBL
+(
+    `tid`           INT            NOT NULL    AUTO_INCREMENT COMMENT '프라이머리 키', 
+    `id`            VARCHAR(45)    NOT NULL    COMMENT '아이디', 
+    `pwd`           VARCHAR(45)    NOT NULL    COMMENT '비밀번호', 
+    `pwdRe`         VARCHAR(45)    NOT NULL    COMMENT '비밀번호 확인', 
+    `name`          VARCHAR(45)    NOT NULL    COMMENT '이름', 
+    `nickname`      VARCHAR(45)    NOT NULL    COMMENT '닉네임', 
+    `birth`         DATE           NOT NULL    COMMENT '생년월일', 
+    `gender`        VARCHAR(45)    NOT NULL    COMMENT '성별', 
+    `phone`         VARCHAR(45)    NOT NULL    COMMENT '휴대폰번호', 
+    `creationDate`  TIMESTAMP      NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성일', 
+    `modDate`       TIMESTAMP      NOT NULL    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일', 
+    CONSTRAINT  PRIMARY KEY (tid)
+);
+
+ALTER TABLE userTBL COMMENT '유저테이블';
+
+DROP TABLE userTBL;
+
+select * from userTBL;
+select * from T_member;
+
+<--test data-->
+INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 1', 'pwd 1', 'pwdRe 1', 'name 1', 'nickname 1', NOW(), 'gender 1', 'phone 1');
+INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 2', 'pwd 2', 'pwdRe 2', 'name 2', 'nickname 2', NOW(), 'gender 2', 'phone 2');
+INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 3', 'pwd 3', 'pwdRe 3', 'name 3', 'nickname 3', NOW(), 'gender 3', 'phone 3');
+
+<--test update-->
+UPDATE userTBL
+SET
+    id = 'id 1', 
+    pwd = 'pwd 1', 
+    pwdRe = 'pwdRe 1', 
+    name = 'name 1' 
+WHERE tid = 1;
