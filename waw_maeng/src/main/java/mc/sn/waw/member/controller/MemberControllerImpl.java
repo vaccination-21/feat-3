@@ -82,9 +82,17 @@ public class MemberControllerImpl   implements MemberController {
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		return mav;
 	}
+	//나머지 폼 형식도 모두 컨트롤러가 존재해야 view와 연결된다!!
+	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
+	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = getViewName(request);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
 	
 	@RequestMapping(value = { "/login/loginForm.do"}, method =  RequestMethod.GET)
-	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView loginform(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);

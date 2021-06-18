@@ -20,6 +20,7 @@
 </head>
 <body>
 	<form method="post"   action="${contextPath}/member/updateMember.do">
+	<input type=hidden name="tid" value="${member.tid}"> <!-- primary값 hidden으로 보내야 한다! --> 
 	<h1  class="text_center">회원정보 수정</h1>
 	<table  align="center">
 	   <tr>
@@ -45,3 +46,4 @@
 	</table>
 	</form>
 </body>
+</html>
