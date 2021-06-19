@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
 public class ChatbotService {
 	
 	public String main(String voiceMessage) {
-		String apiURL = "https://2e16145a3da84b8ead39cc41f95bbe66.apigw.ntruss.com/custom/v1/4786/77fa93916497ce639bdae68e954602c955176a42d57b7e991eb4e0d58da1965e";
-		String secretKey = "VU13TEFLWUVSVWZHd0RwSkt1TlhXa3hydENYTFhSdUw=";
+		String apiURL = "";
+		String secretKey = "";
 
         String chatbotMessage = "";
 
@@ -80,8 +80,8 @@ public class ChatbotService {
     }
 	
 	public String mainJSON(String voiceMessage) {
-		String apiURL = "https://2e16145a3da84b8ead39cc41f95bbe66.apigw.ntruss.com/custom/v1/4786/77fa93916497ce639bdae68e954602c955176a42d57b7e991eb4e0d58da1965e";
-		String secretKey = "VU13TEFLWUVSVWZHd0RwSkt1TlhXa3hydENYTFhSdUw=";
+		String apiURL = "";
+		String secretKey = "";
 
         String chatbotMessage = "";
 
