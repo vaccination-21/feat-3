@@ -15,7 +15,7 @@
 
 </head>
 <body>
-  <form method="get"   action="${contextPath}/waw/login/result.do">
+  <form method="get"   action="${contextPath}/waw/login/mainForm.do">
     <div id="page">
  
         <header>

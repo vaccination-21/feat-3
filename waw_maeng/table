@@ -1,3 +1,4 @@
+<!--create table-->
 CREATE TABLE userTBL
 (
     `tid`           INT            NOT NULL    AUTO_INCREMENT COMMENT '프라이머리 키', 
@@ -16,17 +17,58 @@ CREATE TABLE userTBL
 
 ALTER TABLE userTBL COMMENT '유저테이블';
 
-DROP TABLE userTBL;
+CREATE TABLE chatRoom
+(
+    `roomTid`           INT            NOT NULL    AUTO_INCREMENT COMMENT '프라이/방번호', 
+    `title`             VARCHAR(45)    NOT NULL    COMMENT '방이름', 
+    `RoomCreationDate`  TIMESTAMP      NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성시간', 
+    CONSTRAINT PK_chatRoom PRIMARY KEY (roomTid)
+);
 
+ALTER TABLE chatRoom COMMENT '채팅방';
+
+CREATE TABLE chatRoomJoin
+(
+    `joinTid`  INT    NOT NULL    AUTO_INCREMENT COMMENT '프라이머리 키', 
+    `userTId`  INT    NOT NULL    COMMENT '사용자ID', 
+    `roomTId`  INT    NOT NULL    COMMENT '방ID', 
+    CONSTRAINT PK_chatRoomJoin PRIMARY KEY (JoinTid)
+);
+
+ALTER TABLE chatRoomJoin COMMENT '채팅방조인';
+
+ALTER TABLE chatRoomJoin
+    ADD CONSTRAINT FK_chatRoomJoin_userTId_userTBL_tid FOREIGN KEY (userTId)
+        REFERENCES userTBL (tid) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE chatRoomJoin
+    ADD CONSTRAINT FK_chatRoomJoin_roomTId_chatRoom_roomTid FOREIGN KEY (roomTId)
+        REFERENCES chatRoom (roomTid) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+<!--delete table-->
+TRUNCATE TABLE userTBL;
+TRUNCATE TABLE chatRoomJoin;
+TRUNCATE TABLE chatRoom;
+drop TABLE chatRoomJoin;
+drop TABLE chatRoom;
+
+<!--tid 초기화-->
+ALTER TABLE userTBL AUTO_INCREMENT=1;
+SET @COUNT = 0;
+UPDATE userTBL SET tid = @COUNT:=@COUNT+1;
+
+<!--select-->
 select * from userTBL;
-select * from T_member;
+select * from chatRoom;
+select * from chatRoomJoin;
 
-<--test data-->
+<--test userTBL data-->
 INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 1', 'pwd 1', 'pwdRe 1', 'name 1', 'nickname 1', NOW(), 'gender 1', 'phone 1');
 INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 2', 'pwd 2', 'pwdRe 2', 'name 2', 'nickname 2', NOW(), 'gender 2', 'phone 2');
 INSERT INTO userTBL (id, pwd, pwdRe, name, nickname, birth, gender, phone) VALUES ('id 3', 'pwd 3', 'pwdRe 3', 'name 3', 'nickname 3', NOW(), 'gender 3', 'phone 3');
 
-<--test update-->
+<--test userTBL update-->
 UPDATE userTBL
 SET
     id = 'id 1', 
@@ -34,3 +76,13 @@ SET
     pwdRe = 'pwdRe 1', 
     name = 'name 1' 
 WHERE tid = 1;
+
+<--test chatRoom data-->
+INSERT INTO chatRoom (title) VALUES ('title 1');
+INSERT INTO chatRoom (title) VALUES ('title 2');
+INSERT INTO chatRoom (title) VALUES ('title 3');
+
+<--test chatRoomJoin data-->
+INSERT INTO chatRoomJoin (userTId, roomTId) VALUES (1, 1);
+INSERT INTO chatRoomJoin (userTId, roomTId) VALUES (2, 2);
+INSERT INTO chatRoomJoin (userTId, roomTId) VALUES (3, 3);

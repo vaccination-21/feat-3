@@ -18,16 +18,60 @@
         <result property="modDate" column="modDate" />
 	</resultMap> 
 	
-	<!-- 
-	<resultMap id="memResult" type="java.util.HashMap">
-      <result property="id" column="id" />
-      <result property="pwd" column="pwd" />
-      <result property="name" column="name" />
-      <result property="email" column="email" />
-      <result property="joinDate" column="joinDate" />
-   </resultMap> -->
+	 <!-- 모든 멤버 리스트 --> 
+  	<select id="selectAllMemberList" resultMap="memResult">
+      <![CDATA[
+         select * from userTBL order by tid desc	 	
+      ]]>
+	</select>
+	
+   <!--회원가입-->
+   <insert id="insertMember"  parameterType="memberVO">
+		<![CDATA[
+			 INSERT INTO userTBL
+    			(id, pwd, pwdRe, name, nickname, birth, gender, phone)
+			 VALUES
+			    (#{id}, #{pwd}, #{pwdRe}, #{name}, #{nickname}, #{birth}, #{gender}, #{phone})
+		]]>      
+   </insert>
 
-
+   <!-- 탈회하기 -->
+   <delete id="deleteMember"  parameterType="Integer">
+	<![CDATA[
+	   delete from  userTBL
+	   where
+	   tid=#{tid}
+	]]>      
+   </delete>
+   
+   <!-- 멤버 찾기 -->
+   <select id="selectMemberByTid" resultType="memberVO"  parameterType="Integer" >
+      <![CDATA[
+         select * from userTBL
+         where
+         tid=#{tid}			
+      ]]>
+   </select>
+   
+   <!--개인정보 업데이트 -->
+   <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update userTBL
+	     set id=#{id}, birth=#{birth}, gender=#{gender}, phone=#{phone}
+	     where
+	     tid=#{tid}
+      ]]>      
+   </update> 
+   
+	<!-- 로그인 -->
+   <select id="loginById"  resultType="memberVO"   parameterType="memberVO" >
+	<![CDATA[
+		select * from userTBL	
+		where id=#{id, jdbcType=VARCHAR} and pwd=#{pwd, jdbcType=VARCHAR}		
+	]]>
+  </select>
+  
+   
 	<!-- 
 
 	<select id="selectName" resultType="String">
@@ -96,58 +140,7 @@
   </select> -->
   
   
-    <!-- 모든 멤버 리스트 --> 
-  	<select id="selectAllMemberList" resultMap="memResult">
-      <![CDATA[
-         select * from userTBL order by tid desc	 	
-      ]]>
-	</select>
-	
-   <!--회원가입-->
-   <insert id="insertMember"  parameterType="memberVO">
-		<![CDATA[
-			 INSERT INTO userTBL
-    			(id, pwd, pwdRe, name, nickname, birth, gender, phone)
-			 VALUES
-			    (#{id}, #{pwd}, #{pwdRe}, #{name}, #{nickname}, #{birth}, #{gender}, #{phone})
-		]]>      
-   </insert>
-
-   <!-- 탈회하기 -->
-   <delete id="deleteMember"  parameterType="Integer">
-	<![CDATA[
-	   delete from  userTBL
-	   where
-	   tid=#{tid}
-	]]>      
-   </delete>
    
-   <!-- 멤버 찾기 -->
-   <select id="selectMemberByTid" resultType="memberVO"  parameterType="Integer" >
-      <![CDATA[
-         select * from userTBL
-         where
-         tid=#{tid}			
-      ]]>
-   </select>
-   
-   <!--개인정보 업데이트 -->
-   <update id="updateMember"  parameterType="memberVO">
-     <![CDATA[
-	     update userTBL
-	     set id=#{id}, birth=#{birth}, gender=#{gender}, phone=#{phone}
-	     where
-	     tid=#{tid}
-      ]]>      
-   </update> 
-   
-	<!-- 로그인 -->
-   <select id="loginById"  resultType="memberVO"   parameterType="memberVO" >
-	<![CDATA[
-		select * from userTBL	
-		where id=#{id, jdbcType=VARCHAR} and pwd=#{pwd, jdbcType=VARCHAR}		
-	]]>
-  </select>
    
  <!--  
    <sql id="a">

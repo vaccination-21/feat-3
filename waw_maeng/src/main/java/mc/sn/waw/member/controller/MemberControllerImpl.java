@@ -16,9 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import mc.sn.waw.member.service.MemberService;
+import mc.sn.waw.member.vo.ChatRoomVO;
 import mc.sn.waw.member.vo.MemberVO;
-
-
 
 
 @Controller("memberController")
@@ -49,6 +48,7 @@ public class MemberControllerImpl   implements MemberController {
 		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
 		return mav;
 	}
+	
 	@Override
 	@RequestMapping(value="/member/removeMember.do" ,method = RequestMethod.GET)
 	public ModelAndView removeMember(@RequestParam("tid") Integer tid, 
@@ -100,7 +100,7 @@ public class MemberControllerImpl   implements MemberController {
 	}
 	
 	@Override
-	@RequestMapping(value = "/login/result.do", method = {RequestMethod.GET})
+	@RequestMapping(value = "/login/mainForm.do", method = {RequestMethod.GET})
 	public ModelAndView login(@ModelAttribute("info") MemberVO member,
 				              RedirectAttributes rAttr,
 		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -118,7 +118,38 @@ public class MemberControllerImpl   implements MemberController {
 	return mav;
 	
 	}
-
+	//챗방만들기
+	@Override
+	@RequestMapping(value="/login/addChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView addChatRoom(@ModelAttribute("info") ChatRoomVO ChatRoomVO,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = memberService.addChatRoom(ChatRoomVO);
+		ModelAndView mav = new ModelAndView("forward:/login/chatForm.do");//여기서 list로 가면 되겠네 그담 CRUD 구현
+		return mav;
+	}
+	//챗방불러오기
+//	@Override
+//	@RequestMapping(value="/login/searchMember.do" ,method = RequestMethod.GET)
+//	public ModelAndView searchChatRoom(@RequestParam("roomTid") String roomTid, 
+//			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+//		request.setCharacterEncoding("utf-8");
+//		ChatRoomVO vo = memberService.searchChatRoom(roomTid);
+//		System.out.println(vo.getRoomTid());
+//		ModelAndView mav = new ModelAndView("forward:/login/chatForm.do");
+//		mav.addObject("chatRoom",vo);
+//		return mav;
+//	}
+	//방 여러개..?
+	@RequestMapping(value = "/login/*Form.do", method =  RequestMethod.GET)
+	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = getViewName(request);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
+	
 	/*
 	 * private String getViewName(HttpServletRequest request) throws Exception {
 	 * String contextPath = request.getContextPath(); String uri = (String)
@@ -169,5 +200,4 @@ public class MemberControllerImpl   implements MemberController {
 		}
 		return viewName;
 	}
-
 }
