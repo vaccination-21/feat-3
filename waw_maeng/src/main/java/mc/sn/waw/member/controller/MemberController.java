@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import mc.sn.waw.member.vo.ChatRoomVO;
 import mc.sn.waw.member.vo.MemberVO;
 
 public interface MemberController {
@@ -19,8 +18,4 @@ public interface MemberController {
 	public ModelAndView updateMember(@ModelAttribute("info") MemberVO memberVO,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//로그인
 	public ModelAndView login(@ModelAttribute("info") MemberVO member,RedirectAttributes rAttr, HttpServletRequest request, HttpServletResponse response) throws Exception;
-	//챗방만들기
-	public ModelAndView addChatRoom(@ModelAttribute("info") ChatRoomVO ChatRoomVO,HttpServletRequest request, HttpServletResponse response) throws Exception;
-	//챗방불러오기
-//	public ModelAndView searchChatRoom(@RequestParam("roomTid") Integer tid, HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

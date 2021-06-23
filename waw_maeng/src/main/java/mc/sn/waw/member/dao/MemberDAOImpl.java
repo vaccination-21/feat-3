@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import mc.sn.waw.member.vo.ChatRoomVO;
 import mc.sn.waw.member.vo.MemberVO;
 
 @Repository("memberDAO")
@@ -52,19 +51,6 @@ public class MemberDAOImpl implements MemberDAO {
 	public int updateMember(MemberVO memberVO) throws DataAccessException {
 		int result = sqlSession.update("mapper.member.updateMember", memberVO);
 		return result;
-	}
-	
-	//챗방만들기
-	@Override
-	public int insertChatRoom(ChatRoomVO ChatRoomVO) throws DataAccessException {
-		int result = sqlSession.insert("mapper.member.insertChatRoom", ChatRoomVO);
-		return result;
-	}
-	
-	@Override
-	public ChatRoomVO searchChatRoom(Integer roomTid) throws DataAccessException {
-		ChatRoomVO vo = (ChatRoomVO) sqlSession.selectOne("mapper.member.selectChatRoomByTid", roomTid);
-		return vo;
 	}
 
 }

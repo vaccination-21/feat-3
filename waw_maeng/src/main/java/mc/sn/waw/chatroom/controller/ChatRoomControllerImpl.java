@@ -1,4 +1,4 @@
-package mc.sn.waw.member.controller;
+package mc.sn.waw.chatroom.controller;
 
 import java.util.List;
 
@@ -14,75 +14,67 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import mc.sn.waw.chatroom.service.ChatRoomService;
 
-import mc.sn.waw.member.service.MemberService;
-import mc.sn.waw.member.vo.MemberVO;
+import mc.sn.waw.chatroom.vo.ChatRoomJoinVO;
+import mc.sn.waw.chatroom.vo.ChatRoomVO;
 
 
-@Controller("memberController")
-public class MemberControllerImpl   implements MemberController {
+@Controller("chatRoomController")
+public class ChatRoomControllerImpl   implements ChatRoomController {
 	@Autowired
-	private MemberService memberService;
+	private ChatRoomService ChatRoomService;
 	@Autowired
-	private MemberVO memberVO ;
+	private ChatRoomVO ChatRoomVO;
+	@Autowired
+	private ChatRoomJoinVO ChatRoomJoinVO;
 	
 	@Override
-	@RequestMapping(value="/member/listMembers.do" ,method = RequestMethod.GET)
-	public ModelAndView listMembers(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/chat/listChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView listChatRoom(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
-		List membersList = memberService.listMembers();
+		List chatRoomList = ChatRoomService.listChatRoom();
 		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("membersList", membersList);
+		mav.addObject("chatRoomList", chatRoomList);
 		//System.out.println(viewName);
 		return mav;
 	}
+	//챗 방 만들기
+	@Override
+	@RequestMapping(value="/chat/addChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView addChatRoom(@ModelAttribute("info") ChatRoomVO ChatRoom,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
+		int result = 0;
+		result = ChatRoomService.addChatRoom(ChatRoom);
+		ModelAndView mav = new ModelAndView("forward:/chat/chatForm.do");
+		return mav;
+	}
+	//챗방 삭제하기
+	@Override
+	@RequestMapping(value="/chat/removeChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView removeChatRoom(@RequestParam("roomTid") Integer roomTid, 
+			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		ChatRoomService.removeChatRoom(roomTid);
+		ModelAndView mav = new ModelAndView("redirect:/chat/listChatRoom.do");
+		return mav;
+	}
+	//특정 챗방 불러오기
+//	@Override
+//	@RequestMapping(value="/chat/searchChatRoom.do" ,method = RequestMethod.GET)
+//	public ModelAndView searchChatRoom(@RequestParam("roomTid") Integer roomTid, 
+//			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+//		request.setCharacterEncoding("utf-8");
+//		ChatRoomVO vo = ChatRoomService.searchChatRoom(roomTid);
+//		System.out.println(vo.getRoomTid());
+//		ModelAndView mav = new ModelAndView("forward:/login/chatForm.do");
+//		mav.addObject("chatRoom",vo);
+//		return mav;
+//	}
 
-	@Override
-	@RequestMapping(value="/member/addMember.do" ,method = RequestMethod.POST)
-	public ModelAndView addMember(@ModelAttribute("member") MemberVO member,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		result = memberService.addMember(member);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
-		return mav;
-	}
-	
-	@Override
-	@RequestMapping(value="/member/removeMember.do" ,method = RequestMethod.GET)
-	public ModelAndView removeMember(@RequestParam("tid") Integer tid, 
-			           HttpServletRequest request, HttpServletResponse response) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		memberService.removeMember(tid);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
-		return mav;
-	}
-	
-	@Override
-	@RequestMapping(value="/member/searchMember.do" ,method = RequestMethod.GET)
-	public ModelAndView searchMember(@RequestParam("tid") Integer tid, 
-			           HttpServletRequest request, HttpServletResponse response) throws Exception{
-		request.setCharacterEncoding("utf-8");
-		MemberVO vo = memberService.searchMember(tid);
-		System.out.println(vo.getId());
-		ModelAndView mav = new ModelAndView("forward:/member/updateForm.do");
-		mav.addObject("member",vo);
-		return mav;
-	}
-	
-	@Override
-	@RequestMapping(value="/member/updateMember.do" ,method = RequestMethod.POST)
-	public ModelAndView updateMember(@ModelAttribute("member") MemberVO member,
-			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("utf-8");
-		int result = 0;
-		System.out.println(member.getTid());
-		result = memberService.updateMember(member);
-		ModelAndView mav = new ModelAndView("redirect:/member/listMembers.do");
-		return mav;
-	}
 	//나머지 폼 형식도 모두 컨트롤러가 존재해야 view와 연결된다!!
-	@RequestMapping(value = "/member/*Form.do", method =  RequestMethod.GET)
+	@RequestMapping(value = "/chat/*Form.do", method =  RequestMethod.GET)
 	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView();
@@ -90,38 +82,28 @@ public class MemberControllerImpl   implements MemberController {
 		return mav;
 	}
 	
-	@RequestMapping(value = { "/login/loginForm.do"}, method =  RequestMethod.GET)
-	public ModelAndView loginform(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	//챗방 참가 조인
+	@Override
+	@RequestMapping(value="/chat/addChatRoomJoin.do" ,method = RequestMethod.POST)
+	public ModelAndView addChatRoomJoin(@ModelAttribute("info") ChatRoomJoinVO ChatRoomJoin,
+			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("utf-8");
 		String viewName = getViewName(request);
+		int result = 0;
+		result = ChatRoomService.addChatRoomJoin(ChatRoomJoin);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		return mav;
 	}
 	
+	//챗방 조인 삭제하기
 	@Override
-	@RequestMapping(value = "/login/chatbotForm.do", method = {RequestMethod.GET})
-	public ModelAndView login(@ModelAttribute("info") MemberVO member,
-				              RedirectAttributes rAttr,
-		                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-	ModelAndView mav = new ModelAndView();
-	String viewName = this.getViewName(request);
-	memberVO = memberService.login(member);
-
-	if(memberVO != null) {
-	    HttpSession session = request.getSession();
-	    session.setAttribute("member", memberVO);
-	} else {
-		System.out.println(member.getId() + "," + member.getPwd());
-	}
-	mav.setViewName(viewName);	
-	return mav;
-	
-	}
-	
-	//방 여러개..?
-	@RequestMapping(value = "/login/*Form.do", method =  RequestMethod.GET)
-	public ModelAndView loginForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value="/chat/removeChatRoomJoin.do" ,method = RequestMethod.GET)
+	public ModelAndView removeChatRoomJoin(@RequestParam("info") ChatRoomJoinVO ChatRoomJoinVO, 
+			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
 		String viewName = getViewName(request);
+		ChatRoomService.removeChatRoomJoin(ChatRoomJoinVO);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 		return mav;
@@ -177,4 +159,5 @@ public class MemberControllerImpl   implements MemberController {
 		}
 		return viewName;
 	}
+
 }

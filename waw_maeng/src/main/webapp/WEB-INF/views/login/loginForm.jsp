@@ -15,7 +15,7 @@
 
 </head>
 <body>
-  <form method="get"   action="${contextPath}/waw/login/mainForm.do">
+  <form method="get"   action="${contextPath}/waw/login/chatbotForm.do">
     <div id="page">
  
         <header>

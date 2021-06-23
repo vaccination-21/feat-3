@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-import mc.sn.waw.member.vo.ChatRoomVO;
 import mc.sn.waw.member.vo.MemberVO;
 
 
@@ -20,13 +19,5 @@ public interface MemberDAO {
 	 public MemberVO searchMember(Integer tid) throws DataAccessException;
 	 //정보 업데이트
 	 public int updateMember(MemberVO memberVO) throws DataAccessException;
-	 
-	 //채팅방리스트
-//	 public List selectAllRoomList() throws DataAccessException;
-	 //채팅방 생성
-	 public int insertChatRoom(ChatRoomVO ChatRoomVO) throws DataAccessException;
-	 //챗방 불러오기
-	 public ChatRoomVO searchChatRoom(Integer roomTid) throws DataAccessException;
-	 //챗방 나가기
-//	 public int deleteChatRoom(Integer roomTid) throws DataAccessException;
+	
 }

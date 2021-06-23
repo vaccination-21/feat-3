@@ -5,6 +5,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="mc.sn.waw.member.vo.MemberVO"  alias="memberVO" />
-		<typeAlias type="mc.sn.waw.member.vo.ChatRoomVO"  alias="ChatRoomVO" />
+		<typeAlias type="mc.sn.waw.chatroom.vo.ChatRoomVO"  alias="ChatRoomVO" />
+		<typeAlias type="mc.sn.waw.chatroom.vo.ChatRoomJoinVO"  alias="ChatRoomJoinVO" />
 	</typeAliases>
 </configuration>

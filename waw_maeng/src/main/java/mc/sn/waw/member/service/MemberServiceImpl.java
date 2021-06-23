@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import mc.sn.waw.member.dao.MemberDAO;
-import mc.sn.waw.member.vo.ChatRoomVO;
 import mc.sn.waw.member.vo.MemberVO;
 
 @Service("memberService")
@@ -50,16 +49,5 @@ public class MemberServiceImpl implements MemberService {
 		MemberVO vo = null;
 		vo = memberDAO.loginById(memberVO);
 		return vo;
-	}
-
-	@Override
-	public int addChatRoom(ChatRoomVO ChatRoomVO) throws DataAccessException {
-		return memberDAO.insertChatRoom(ChatRoomVO);
-	}
-
-	@Override
-	public ChatRoomVO searchChatRoom(Integer roomTid) throws DataAccessException {
-	
-		return memberDAO.searchChatRoom(roomTid);
 	}
 }

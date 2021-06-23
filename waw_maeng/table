@@ -29,10 +29,10 @@ ALTER TABLE chatRoom COMMENT '채팅방';
 
 CREATE TABLE chatRoomJoin
 (
-    `joinTid`  INT    NOT NULL    AUTO_INCREMENT COMMENT '프라이머리 키', 
-    `userTId`  INT    NOT NULL    COMMENT '사용자ID', 
-    `roomTId`  INT    NOT NULL    COMMENT '방ID', 
-    CONSTRAINT PK_chatRoomJoin PRIMARY KEY (JoinTid)
+    `userTId`               INT          NOT NULL    COMMENT '사용자ID', 
+    `roomTId`               INT          NOT NULL    COMMENT '방ID', 
+    `roomJoinCreationDate`  TIMESTAMP    NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성시간', 
+    CONSTRAINT PK_chatRoomJoin PRIMARY KEY (userTId, roomTId)
 );
 
 ALTER TABLE chatRoomJoin COMMENT '채팅방조인';
