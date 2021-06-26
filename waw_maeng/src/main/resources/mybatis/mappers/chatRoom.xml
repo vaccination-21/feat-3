@@ -27,6 +27,14 @@
 		]]>      
    </insert> 
    
+   <!-- 방 데이타 불러오기 -->
+   <select id="selectByTitle"  resultType="ChatRoomVO"   parameterType="ChatRoomVO" >
+	<![CDATA[
+		select * from chatRoom	
+		where title=#{title}
+	]]>
+   </select>
+   
    <!-- 특정 방 가져오기 --> 
    <select id="selectChatRoomByRoomTid" resultType="ChatRoomVO"  parameterType="Integer" >
       <![CDATA[

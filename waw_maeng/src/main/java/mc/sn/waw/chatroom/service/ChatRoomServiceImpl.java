@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import mc.sn.waw.chatroom.dao.ChatRoomDAO;
 import mc.sn.waw.chatroom.vo.ChatRoomJoinVO;
 import mc.sn.waw.chatroom.vo.ChatRoomVO;
+import mc.sn.waw.member.vo.MemberVO;
 
 @Service("ChatRoomService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -39,7 +40,18 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	
 		return ChatRoomDAO.searchChatRoom(roomTid);
 	}
-	
+	@Override
+	public ChatRoomVO selectChatRoomVO(ChatRoomVO ChatRoomVO) throws DataAccessException {
+		ChatRoomVO vo = null;
+		vo = ChatRoomDAO.selectByTitle(ChatRoomVO);
+		return vo;
+	}
+	@Override
+	public ChatRoomJoinVO selectChatRoomJoinVO(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException {
+		ChatRoomJoinVO vo = null;
+		vo = ChatRoomDAO.selectByTidRoomTid(ChatRoomJoinVO);
+		return vo;
+	}
 	@Override
 	public int addChatRoomJoin(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException {
 		return ChatRoomDAO.insertChatRoomJoin(ChatRoomJoinVO);

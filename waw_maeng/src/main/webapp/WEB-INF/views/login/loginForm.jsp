@@ -1,7 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Company</title>
  
     <!-- 반응형 웹 만들기 -->
@@ -15,7 +17,7 @@
 
 </head>
 <body>
-  <form method="get"   action="${contextPath}/waw/login/chatbotForm.do">
+  <form method="get"   action="${contextPath}/waw/login/loginCheck.do">
     <div id="page">
  
         <header>
@@ -44,7 +46,18 @@
             </nav>
  
         </header>
- 
+ 		<div>	
+         		<c:if test="${msg == 'failure'}">
+                   <div style="color: red">
+                       	아이디 또는 비밀번호가 일치하지 않습니다.
+                   	</div>
+               	</c:if>
+               	<c:if test="${msg == 'logout'}">
+                   	<div style="color: red">
+                       	로그아웃되었습니다.
+                   	</div>
+                </c:if>
+         </div>
         <article id="content">
             <section id="main">
                 <img id="main_img" src="/waw/resources/imgs/main_img.png" alt="main img" >

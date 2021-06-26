@@ -1,3 +1,5 @@
+<%@page import="mc.sn.waw.member.vo.MemberVO"%>
+<%@page import="mc.sn.waw.chatroom.vo.ChatRoomVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>

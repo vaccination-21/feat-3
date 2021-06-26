@@ -20,8 +20,8 @@ import org.springframework.stereotype.Service;
 public class ChatbotService {
 	
 	public String main(String voiceMessage) {
-		String apiURL = " ";
-		String secretKey = " ";
+		String apiURL = "";
+		String secretKey = "";
 
         String chatbotMessage = "";
 

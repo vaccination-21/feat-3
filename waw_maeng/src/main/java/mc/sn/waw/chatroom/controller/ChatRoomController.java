@@ -23,5 +23,5 @@ public interface ChatRoomController {
 	//챗방 들어가기,조인
 	public ModelAndView addChatRoomJoin(@ModelAttribute("info") ChatRoomJoinVO ChatRoomJoin,HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//챗방 조인 삭제
-	public ModelAndView removeChatRoomJoin(@RequestParam("info") ChatRoomJoinVO ChatRoomJoinVO, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView removeChatRoomJoin(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

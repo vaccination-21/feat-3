@@ -2,6 +2,8 @@ package mc.sn.waw.member.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -45,9 +47,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
-	public MemberVO login(MemberVO memberVO) throws Exception{
+	public MemberVO loginCheck(MemberVO memberVO) throws Exception{
 		MemberVO vo = null;
 		vo = memberDAO.loginById(memberVO);
 		return vo;
 	}
+	
+	@Override
+    public void logout(HttpSession session) {
+        // 세션 변수 개별 삭제
+        // session.removeAttribute("userId");
+        // 세션 정보를 초기화 시킴
+        session.invalidate();
+    }
+	
 }

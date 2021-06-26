@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import mc.sn.waw.chatroom.vo.ChatRoomJoinVO;
 import mc.sn.waw.chatroom.vo.ChatRoomVO;
+import mc.sn.waw.member.vo.MemberVO;
 
 @Repository("ChatRoomDAO")
 public class ChatRoomDAOImpl implements ChatRoomDAO {
@@ -39,16 +40,28 @@ public class ChatRoomDAOImpl implements ChatRoomDAO {
 		int result = sqlSession.delete("mapper.chatRoom.deleteChatRoom", roomTid);
 		return result;
 	}
+	//조인 데이타 불러오기
+	@Override
+	public ChatRoomVO selectByTitle(ChatRoomVO ChatRoomVO) throws DataAccessException{
+		ChatRoomVO vo = sqlSession.selectOne("mapper.chatRoom.selectByTitle", ChatRoomVO);
+		return vo;
+	}
+	//조인 데이타 불러오기
+	@Override
+	public ChatRoomJoinVO selectByTidRoomTid(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException{
+		ChatRoomJoinVO vo = sqlSession.selectOne("mapper.chatRoomJoin.selectByTidRoomTid", ChatRoomJoinVO);
+		return vo;
+	}
 	//채팅방 들어가기,조인
 	@Override
 	public int insertChatRoomJoin(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException {
 		int result = sqlSession.insert("mapper.chatRoomJoin.insertChatRoomJoin", ChatRoomJoinVO);
 		return result;
 	}
-	//조인 테이블 나가기
+	//조인 테이블 삭제하기
 	@Override
 	public int deleteChatRoomJoin(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException {
-		int result = sqlSession.delete("mapper.chatRoom.deleteChatRoomJoin", ChatRoomJoinVO);
+		int result = sqlSession.delete("mapper.chatRoomJoin.deleteChatRoomJoin", ChatRoomJoinVO);
 		return result;
 	}
 

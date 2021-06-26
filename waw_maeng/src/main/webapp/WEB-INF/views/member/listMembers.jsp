@@ -33,7 +33,7 @@
  <c:forEach var="member" items="${membersList}" >     
    <tr align="center">
       <td>
-      	<a href="${contextPath}/member/searchMember.do?tid=${member.tid }">${member.id}</a>
+      	<a href="${contextPath}/member/searchMember.do?tid=${member.tid}">${member.id}</a>
       </td>
       <td>${member.pwd}</td>
       <td>${member.pwdRe}</td>
@@ -44,7 +44,7 @@
       <td>${member.phone}</td>
       <td>${member.creationDate}</td>
       <td>${member.modDate}</td>
-      <td><a href="${contextPath}/member/removeMember.do?tid=${member.tid }">삭제하기</a></td>
+      <td><a href="${contextPath}/member/removeMember.do?tid=${member.tid}">삭제하기</a></td>
     </tr>
   </c:forEach>   
 </table>

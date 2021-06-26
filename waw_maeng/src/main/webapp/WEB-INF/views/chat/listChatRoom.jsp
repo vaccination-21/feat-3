@@ -1,3 +1,5 @@
+<%@page import="mc.sn.waw.member.vo.MemberVO"%>
+<%@page import="mc.sn.waw.chatroom.vo.ChatRoomVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" 
     isELIgnored="false"  %>
@@ -23,11 +25,10 @@
       <td><b>삭제하기</b></td>
    </tr>
    
- <c:forEach var="chatRoom" items="${chatRoomList}" >     
+ <c:forEach var="chatRoom" items="${chatRoomsList}">     
    <tr align="center">
       <td>
-      	<%-- <a href="${contextPath}/chat/searchChatRoom.do?roomTid=${chatRoom.roomTid }">${chatRoom.roomTid}</a> --%>
-      ${chatRoom.roomTid}
+      	<a href="${contextPath}/chat/addChatRoomJoin.do?tid=${member.tid}&roomTid=${chatRoom.roomTid}">${chatRoom.roomTid}</a> 
       </td>
       <td>${chatRoom.title}</td>
       <td>${chatRoom.roomCreationDate}</td>
@@ -35,7 +36,7 @@
     </tr>
   </c:forEach>   
 </table>
-<a href="${contextPath}/chat/chatRoomForm.do"><h1 style="text-align:center">방만들기</h1></a>
+<a href="${contextPath}/chat/chatRoomForm.do?tid=${member.tid}"><h1 style="text-align:center">방만들기</h1></a>
 <br><br>
 <a href="../">index 페이지로 이동</a>
 </body>

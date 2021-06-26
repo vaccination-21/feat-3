@@ -1,4 +1,4 @@
-<%@page import="mc.sn.waw.member.vo.MemberVO"%>
+<%@page import="mc.sn.waw.chatroom.vo.ChatRoomVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,16 +9,13 @@
 
 </head>
 <body>
-	<h1  class="text_center">채팅방</h1>
 <%
-	MemberVO vo = (MemberVO)session.getAttribute("member");
-	String result = "입장 실패";
-	if (vo != null){
-		result = "Data: "+ vo.getNickname() + "님이 입장하셨습니다!!";
-	} 
-	String alertMessage = "<script>alert('"+ result +"')</script>";
-	out.print(alertMessage);
-	//session.invalidate(); //log out 기능
+ChatRoomVO vo = (ChatRoomVO)session.getAttribute("ChatRoomVO");
 %>
+	<h1><%=vo.getTitle()%>에 입장하셨습니다.</h1>
+	 <tr>
+      <td>${member.nickname}님이 입장하셨습니다.</td>
+     </tr>
+ <a href="${contextPath}/waw/chat/removeChatRoomJoin.do?tid=${ChatRoomJoinVO.tid}&roomTid=${ChatRoomJoinVO.roomTid}"><h1>나가기</h1></a> 
 </body>
 </html>

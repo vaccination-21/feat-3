@@ -9,30 +9,27 @@ import org.springframework.stereotype.Component;
 public class ChatRoomJoinVO {
 
 	 // 사용자ID 
-	 private Integer userTid;
-	
+	 private Integer tid;
 	 // 방ID 
 	 private Integer roomTid;
-
-	// 생성시간 
+	 // 생성시간 
 	 private Date roomJoinCreationDate;
 	 
 	 public ChatRoomJoinVO() {
 			
 	}
 
-	public ChatRoomJoinVO(Integer userTid, Integer roomTid, Date roomJoinCreationDate) {
-		this.userTid = userTid;
+	public ChatRoomJoinVO(Integer tid, Integer roomTid) {
+		this.tid = tid;
 		this.roomTid = roomTid;
-		this.roomJoinCreationDate = roomJoinCreationDate;
 	}
 
-	public Integer getUserTid() {
-	     return userTid;
+	public Integer getTid() {
+	     return tid;
 	 }
 	
-	 public void setUsertid(Integer userTid) {
-	     this.userTid = userTid;
+	 public void setTid(Integer tid) {
+	     this.tid = tid;
 	 }
 	
 	 public Integer getRoomTid() {
