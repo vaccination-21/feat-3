@@ -160,9 +160,10 @@ public class ChatRoomControllerImpl   implements ChatRoomController {
 		//방을 만들고 들어왔을 때
 		ModelAndView mav = new ModelAndView("redirect:/chat/listFieldChatRoom.do");
 		mav.addObject("field", field);
+		System.out.println("1");
 
 		//조인으로 들어왔을 때
-		if(request.getParameter("tid") != null) {
+		if(request.getParameter("roomTid") != ""){
 			tid = request.getParameter("tid");
 			roomTid = request.getParameter("roomTid");
 			ChatRoomJoinVO.setRoomtid(Integer.parseInt(tid));
