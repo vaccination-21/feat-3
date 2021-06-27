@@ -16,7 +16,7 @@ import mc.sn.waw.member.vo.MemberVO;
 
 public interface ChatRoomDAO {
 
-	 //채팅방리스트
+	 //전체 채팅방 리스트
 	 public List selectAllChatRoomList() throws DataAccessException;
 	 //분야별 채팅 리스트
 	 public List selectFieldChatRoomList(String field) throws DataAccessException;
@@ -26,9 +26,8 @@ public interface ChatRoomDAO {
 	 public ChatRoomVO searchChatRoom(Integer roomTid) throws DataAccessException;
 	 //챗방 나가기
 	 public int deleteChatRoom(Integer roomTid) throws DataAccessException;
-	 
-	 public ChatRoomVO selectByTitle(ChatRoomVO ChatRoomVO) throws DataAccessException;
-	 
+	 //룸 데이터 불러오기
+	 public ChatRoomVO selectByTitle(String title) throws DataAccessException;
 	 //조인 데이타 불러오기
 	 public ChatRoomJoinVO selectByTidRoomTid(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException;
 	 //채팅방 들어가기,조인

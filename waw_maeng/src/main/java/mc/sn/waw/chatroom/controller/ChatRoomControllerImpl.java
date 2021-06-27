@@ -29,7 +29,7 @@ public class ChatRoomControllerImpl   implements ChatRoomController {
 	@Autowired
 	private ChatRoomJoinVO ChatRoomJoinVO;
 	
-	//채팅방리스트
+	//전체 채팅방 리스트
 	@Override
 	@RequestMapping(value="/chat/listChatRoom.do" ,method = RequestMethod.GET)
 	public ModelAndView listChatRoom(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -37,6 +37,16 @@ public class ChatRoomControllerImpl   implements ChatRoomController {
 		List chatRoomsList = ChatRoomService.listChatRoom();
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("chatRoomsList", chatRoomsList);
+		return mav;
+	}
+	//채팅방 리스트 삭제(모든 리스트)
+	@Override
+	@RequestMapping(value="/chat/removeChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView removeChatRoom(@RequestParam("roomTid") Integer roomTid, 
+			           HttpServletRequest request, HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("utf-8");
+		ChatRoomService.removeChatRoom(roomTid);
+		ModelAndView mav = new ModelAndView("redirect:/chat/listChatRoom.do");
 		return mav;
 	}
 	
@@ -49,42 +59,33 @@ public class ChatRoomControllerImpl   implements ChatRoomController {
 		List chatRoomsFieldList = ChatRoomService.listFieldChatRoom(field);
 		ModelAndView mav = new ModelAndView(viewName);
 		mav.addObject("chatRoomsFieldList", chatRoomsFieldList);
-		System.out.println(chatRoomsFieldList);
 		return mav;
 	}
-	//챗 방 만들기
+	//채팅방 만들기
 	@Override
 	@RequestMapping(value="/chat/addChatRoom.do" ,method = RequestMethod.GET)
 	public ModelAndView addChatRoom(@ModelAttribute("info") ChatRoomVO ChatRoom,
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		int result = 0;
-		//add
 		result = ChatRoomService.addChatRoom(ChatRoom);
-		//select
-		ChatRoomVO = ChatRoomService.selectChatRoomVO(ChatRoom);
-		if(ChatRoomVO != null) {
-		    HttpSession session = request.getSession();
-		    session.setAttribute("ChatRoomVO", ChatRoomVO);
-		    System.out.println(ChatRoomVO.getField());
-		} else {
-			System.out.println(ChatRoomVO.getRoomTid() + "," + ChatRoomVO.getTitle() + "," + ChatRoomVO.getField());
-		}
-		ModelAndView mav = new ModelAndView("redirect:/chat/chatForm.do");
+		ModelAndView mav = new ModelAndView("forward:/chat/chatForm.do");
 		return mav;
 	}
 	
-	//챗방 삭제하기 이것도 사람이 0명일 떄 사라져야 되네 -> 추후
+	//분야별 채팅방 삭제(이것도 사람이 0명일 떄 사라져야 되네 -> 추후)
 	@Override
-	@RequestMapping(value="/chat/removeChatRoom.do" ,method = RequestMethod.GET)
-	public ModelAndView removeChatRoom(@RequestParam("roomTid") Integer roomTid, 
+	@RequestMapping(value="/chat/removeFieldChatRoom.do" ,method = RequestMethod.GET)
+	public ModelAndView removeFieldChatRoom(@RequestParam("roomTid") Integer roomTid, 
 			           HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
+		String field = request.getParameter("field");
 		ChatRoomService.removeChatRoom(roomTid);
-		ModelAndView mav = new ModelAndView("redirect:/chat/listChatRoom.do");//여기도 /chat/removeChatRoomJoin.do가야된다.
+		ModelAndView mav = new ModelAndView("redirect:/chat/listFieldChatRoom.do");
+		mav.addObject("field", field);
 		return mav;
 	}
-	//특정 챗방 불러오기 -> 추후
+	//특정 채팅방 불러오기(검색)->추후
 //	@Override
 //	@RequestMapping(value="/chat/searchChatRoom.do" ,method = RequestMethod.GET)
 //	public ModelAndView searchChatRoom(@RequestParam("roomTid") Integer roomTid, 
@@ -97,60 +98,87 @@ public class ChatRoomControllerImpl   implements ChatRoomController {
 //		return mav;
 //	}
 	
-	//나머지 폼 형식도 모두 컨트롤러가 존재해야 view와 연결된다!!
-	@RequestMapping(value = "/chat/*Form.do", method =  RequestMethod.GET)
-	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String viewName = getViewName(request);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName(viewName);
-		return mav;
-	}
-	
-	//챗방 참가 조인(조인테이블 추가 후 select하여 joinVO에 넣어줌) 
+	//채팅방 들어가기(조인)
 	@Override
 	@RequestMapping(value="/chat/addChatRoomJoin.do" ,method = RequestMethod.GET)
 	public ModelAndView addChatRoomJoin(@ModelAttribute("info") ChatRoomJoinVO ChatRoomJoin,
 			                  HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		String viewName = getViewName(request);
 		int result = 0;
 		String roomTid = request.getParameter("roomTid");
 		ChatRoomJoin.setRoomtid(Integer.parseInt(roomTid));
 		result = ChatRoomService.addChatRoomJoin(ChatRoomJoin);
-		
-		ChatRoomJoinVO = ChatRoomService.selectChatRoomJoinVO(ChatRoomJoin);
-
-		if(ChatRoomJoinVO != null) {
-		    HttpSession session = request.getSession();
-		    session.setAttribute("ChatRoomJoinVO", ChatRoomJoinVO);
-		} else {
-			System.out.println(ChatRoomJoinVO.getTid() + "," + ChatRoomJoinVO.getRoomTid());
-		}
 		ModelAndView mav = new ModelAndView("forward:/chat/chatForm.do");
 		return mav;
 	}
+	//채팅방
+	@Override
+	@RequestMapping(value = "/chat/chatForm.do", method =  RequestMethod.GET)
+	public ModelAndView chatForm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = getViewName(request);
+		String tid = "";
+		String roomTid = "";
+		String title = request.getParameter("title");
+		
+		//룸 데이터 불러오기
+		ChatRoomVO = ChatRoomService.selectChatRoomVO(title);
+		if(ChatRoomVO != null) {
+		    HttpSession session = request.getSession();
+		    session.setAttribute("ChatRoomVO", ChatRoomVO);
+		} else {
+			System.out.println(ChatRoomVO.getRoomTid() + "," + ChatRoomVO.getTitle() + "," + ChatRoomVO.getField());
+		}
+		//조인 데이터 불러오기
+		if(request.getParameter("roomTid") != null) {
+			tid = request.getParameter("tid");
+			roomTid = request.getParameter("roomTid");
+			ChatRoomJoinVO ChatRoomJoin = new ChatRoomJoinVO();
+			ChatRoomJoin.setTid(Integer.parseInt(tid));
+			ChatRoomJoin.setRoomtid(Integer.parseInt(roomTid));
+			ChatRoomJoinVO = ChatRoomService.selectChatRoomJoinVO(ChatRoomJoin);
+			if(ChatRoomJoinVO != null) {
+			    HttpSession session = request.getSession();
+			    session.setAttribute("ChatRoomJoinVO", ChatRoomJoinVO);
+			} else {
+				System.out.println(ChatRoomJoinVO.getTid() + "," + ChatRoomJoinVO.getRoomTid());
+			}
+		}
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
+	}
 	
-	//챗방 조인 삭제하기 및 방삭제 호출
+	//채팅방 나가기(+조인 삭제)
 	@Override 
 	@RequestMapping(value="/chat/removeChatRoomJoin.do" ,method = RequestMethod.GET)
 	public ModelAndView removeChatRoomJoin(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		request.setCharacterEncoding("utf-8");
-		String viewName = getViewName(request);
 		String tid = "";
 		String roomTid = "";
-		if(request.getParameter("tid").equals("")) {
-			ModelAndView mav = new ModelAndView("redirect:/chat/listChatRoom.do");
-			return mav;
-		}
-		else {
+		String field = request.getParameter("field");
+		
+		//방을 만들고 들어왔을 때
+		ModelAndView mav = new ModelAndView("redirect:/chat/listFieldChatRoom.do");
+		mav.addObject("field", field);
+
+		//조인으로 들어왔을 때
+		if(request.getParameter("tid") != null) {
 			tid = request.getParameter("tid");
 			roomTid = request.getParameter("roomTid");
 			ChatRoomJoinVO.setRoomtid(Integer.parseInt(tid));
 			ChatRoomJoinVO.setRoomtid(Integer.parseInt(roomTid));
 			ChatRoomService.removeChatRoomJoin(ChatRoomJoinVO);
-			ModelAndView mav = new ModelAndView("redirect:/chat/listChatRoom.do");
-			return mav;
-		}	
+			mav.setViewName("redirect:/chat/listFieldChatRoom.do");
+		}
+		return mav;
+	}
+	
+	@RequestMapping(value = "/chat/chatRoomForm.do", method =  RequestMethod.GET)
+	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String viewName = getViewName(request);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		return mav;
 	}
 	
 	private String getViewName(HttpServletRequest request) throws Exception {

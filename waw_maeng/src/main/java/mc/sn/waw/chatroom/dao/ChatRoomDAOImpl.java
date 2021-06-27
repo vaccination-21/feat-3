@@ -51,8 +51,8 @@ public class ChatRoomDAOImpl implements ChatRoomDAO {
 	}
 	//조인 데이타 불러오기
 	@Override
-	public ChatRoomVO selectByTitle(ChatRoomVO ChatRoomVO) throws DataAccessException{
-		ChatRoomVO vo = sqlSession.selectOne("mapper.chatRoom.selectByTitle", ChatRoomVO);
+	public ChatRoomVO selectByTitle(String title) throws DataAccessException{
+		ChatRoomVO vo = sqlSession.selectOne("mapper.chatRoom.selectByTitle", title);
 		return vo;
 	}
 	//조인 데이타 불러오기

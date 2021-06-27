@@ -29,7 +29,7 @@
  <c:forEach var="chatRoomField" items="${chatRoomsFieldList}">
    <tr align="center">
       <td>
-      	<a href="${contextPath}/chat/addChatRoomJoin.do?tid=${member.tid}&roomTid=${chatRoomField.roomTid}">${chatRoomField.roomTid}</a> 
+      	<a href="${contextPath}/chat/addChatRoomJoin.do?tid=${member.tid}&roomTid=${chatRoomField.roomTid}&title=${chatRoomField.title}">${chatRoomField.roomTid}</a> 
       </td>
       <td>${chatRoomField.title}</td>
       <c:choose> 
@@ -41,12 +41,12 @@
 		</c:when>
 	  </c:choose>
       <td>${chatRoomField.roomCreationDate}</td>
-      <td><a href="${contextPath}/chat/removeChatRoom.do?roomTid=${chatRoomField.roomTid }">삭제하기</a></td>
+      <td><a href="${contextPath}/chat/removeFieldChatRoom.do?roomTid=${chatRoomField.roomTid}&field=${chatRoomField.field}">삭제하기</a></td>
     </tr>
   </c:forEach>   
 </table>
 <a href="${contextPath}/chat/chatRoomForm.do?tid=${member.tid}"><h1 style="text-align:center">방만들기</h1></a>
 <br><br>
-<a href="../">index 페이지로 이동</a>
+<a href="${contextPath}/chat/listChatRoom.do">전체 목록으로 가기</a>
 </body>
 </html>

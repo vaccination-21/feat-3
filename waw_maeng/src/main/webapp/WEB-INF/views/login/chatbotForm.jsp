@@ -29,7 +29,7 @@
     <a href="${contextPath}/waw/login/logout.do">로그아웃</a>
 </c:if>
 <form method="GET"   action="${contextPath}/waw/chat/listFieldChatRoom.do">
-	<h1  class="text_center">메인화면으로가기</h1>
+	<h1  class="text_center">WAW chatbot</h1>
 	<table  align="center">
 	   <tr>
 	      <td width="200"><p align="right">분야</td>
@@ -42,7 +42,7 @@
 	   </tr>
 	    <tr>
 	       <td width="200"><p>&nbsp;</p></td>
-	       <td width="400"><input type="submit" value="가기"></td>
+	       <td width="400"><input type="submit" value="바로가기"></td>
 	    </tr>
 	</table>
 	</form>

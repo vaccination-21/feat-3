@@ -29,7 +29,7 @@
  <c:forEach var="chatRoom" items="${chatRoomsList}">
    <tr align="center">
       <td>
-      	<a href="${contextPath}/chat/addChatRoomJoin.do?tid=${member.tid}&roomTid=${chatRoom.roomTid}">${chatRoom.roomTid}</a> 
+      	<a href="${contextPath}/chat/addChatRoomJoin.do?tid=${member.tid}&roomTid=${chatRoom.roomTid}&title=${chatRoom.title}">${chatRoom.roomTid}</a> 
       </td>
       <td>${chatRoom.title}</td>
       <c:choose> 
@@ -47,6 +47,6 @@
 </table>
 <a href="${contextPath}/chat/chatRoomForm.do?tid=${member.tid}"><h1 style="text-align:center">방만들기</h1></a>
 <br><br>
-<a href="../">index 페이지로 이동</a>
+<a href="${contextPath}/login/chatbotForm.do">챗봇으로 가기</a>
 </body>
 </html>

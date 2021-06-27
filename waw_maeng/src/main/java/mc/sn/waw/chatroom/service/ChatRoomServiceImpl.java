@@ -47,9 +47,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 		return ChatRoomDAO.searchChatRoom(roomTid);
 	}
 	@Override
-	public ChatRoomVO selectChatRoomVO(ChatRoomVO ChatRoomVO) throws DataAccessException {
+	public ChatRoomVO selectChatRoomVO(String title) throws DataAccessException {
 		ChatRoomVO vo = null;
-		vo = ChatRoomDAO.selectByTitle(ChatRoomVO);
+		vo = ChatRoomDAO.selectByTitle(title);
 		return vo;
 	}
 	@Override

@@ -14,7 +14,7 @@ public interface ChatRoomService {
 	 public int addChatRoom(ChatRoomVO ChatRoomVO) throws DataAccessException;
 	 public int removeChatRoom(Integer roomTid) throws DataAccessException;
 	 public ChatRoomVO searchChatRoom(Integer roomTid) throws DataAccessException;
-	 public ChatRoomVO selectChatRoomVO(ChatRoomVO ChatRoomVO) throws Exception;
+	 public ChatRoomVO selectChatRoomVO(String title) throws Exception;
 	 
 	 public ChatRoomJoinVO selectChatRoomJoinVO(ChatRoomJoinVO ChatRoomJoinVO) throws Exception; 
 	 public int addChatRoomJoin(ChatRoomJoinVO ChatRoomJoinVO) throws DataAccessException;

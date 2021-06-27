@@ -21,6 +21,7 @@ CREATE TABLE chatRoom
 (
     `roomTid`           INT            NOT NULL    AUTO_INCREMENT COMMENT '프라이/방번호', 
     `title`             VARCHAR(45)    NOT NULL    COMMENT '방이름', 
+    `field`             VARCHAR(45)    NOT NULL    COMMENT '분야', 
     `RoomCreationDate`  TIMESTAMP      NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성시간', 
     CONSTRAINT PK_chatRoom PRIMARY KEY (roomTid)
 );

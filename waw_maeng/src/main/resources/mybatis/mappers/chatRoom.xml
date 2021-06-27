@@ -37,7 +37,7 @@
    </insert> 
    
    <!-- 조인 데이타 불러오기 -->
-   <select id="selectByTitle"  resultType="ChatRoomVO"   parameterType="ChatRoomVO" >
+   <select id="selectByTitle"  resultType="ChatRoomVO"   parameterType="String" >
 	<![CDATA[
 		select * from chatRoom	
 		where title=#{title}
